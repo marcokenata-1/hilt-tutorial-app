@@ -7,14 +7,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.marcokenata.currencyapp.R
 import com.marcokenata.currencyapp.data.model.User
+import com.marcokenata.currencyapp.databinding.ItemLayoutBinding
 import kotlinx.android.synthetic.main.item_layout.view.*
 
 class MainAdapter(
     private val list: ArrayList<User>
 ) : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
+
+    private lateinit var binding: ItemLayoutBinding
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        binding = ItemLayoutBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
+            binding
         )
     }
 
@@ -26,9 +31,9 @@ class MainAdapter(
         return list.size
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: ItemLayoutBinding) : RecyclerView.ViewHolder(itemView.root) {
         fun bind(user: User) {
-            itemView.textViewUserEmail.text = user.email
+            itemView.textViewUserName.text = user.email
             itemView.textViewUserName.text = user.name
             Glide.with(itemView.imageViewAvatar.context)
                 .load(user.avatar)
